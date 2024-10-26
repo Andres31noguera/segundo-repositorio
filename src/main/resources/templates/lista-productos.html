@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de productos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4">Lista de Productos</h1>
+        <p>Total de productos: <span th:text="${count}"></span></p>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.id}"></td>
+                    <td th:text="${producto.nombre}"></td>
+                    <td th:text="${producto.precio}"></td>
+                    <td>
+                        <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="btn btn-primary btn-sm">Editar</a>
+                        <button type="button" class="btn btn-danger btn-sm" th:onclick="'confirmarEliminacion(' + ${producto.id} + ')'">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/productos/crear" class="btn btn-success">Crear Nuevo Producto</a>
+    </div>
+
+    <script type="text/javascript">
+        function confirmarEliminacion(productId) {
+            if (confirm('¿Eliminará este producto? ¿Está seguro?')) {
+                window.location.href = '/productos/eliminar/' + productId;
+            }
+        }
+    </script>
+</body>
+</html>
